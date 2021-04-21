@@ -52,7 +52,6 @@ void PathFinderMap::BlockBrush(const cinder::vec2& brush_screen_coords) {
                 brush_radius_) {
                 //The number is temporary and will be replaced by a enum type
                 image_[row][col] = 1;
-
             }
         }
     }

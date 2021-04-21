@@ -10,7 +10,6 @@
 
 namespace pathfinder {
 namespace graphics {
-
 class Application : public ci::app::App {
   public:
     /**
@@ -30,10 +29,8 @@ class Application : public ci::app::App {
     //The visual map
     PathFinderMap map_;
 };
-
-}  // namespace visualizer
-
-}  // namespace naivebayes
+}
+}
 
 
 
