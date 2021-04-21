@@ -21,7 +21,7 @@ class Application : public ci::app::App {
     Application();
     void draw() override;
   private:
-    const int kWindowSize = 650;
+    const int kWindowSize = 800;
     const double kMargin = 100;
     const size_t kImageDimension = 30;
     PathFinderMap map_;

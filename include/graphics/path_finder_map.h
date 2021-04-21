@@ -2,7 +2,7 @@
 // Created by Vrushhabh Patel on 4/20/21.
 //
 
-
+#include "cinder/gl/gl.h"
 #include <glm/vec2.hpp>
 
 namespace pathfinder {
@@ -10,8 +10,8 @@ namespace  graphics {
 class PathFinderMap {
   public:
     PathFinderMap(const glm::vec2 &top_left_corner,
-                        size_t num_spaces_per_side, double sketchpad_size,
-                        double brush_radius = .8);
+                        size_t num_spaces_per_side, double map_size,
+                        double brush_radius);
     void DrawMap();
   private:
     glm::vec2 top_left_corner_;
@@ -27,7 +27,7 @@ class PathFinderMap {
     /**
      * The radius of the brush used on the map to color in spaces to indicate their appropiate type
      */
-    double brush_radius_;
+    __unused double brush_radius_;
 };
 }
 

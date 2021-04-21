@@ -11,14 +11,13 @@
 namespace pathfinder {
 namespace graphics {
 void Application::draw() {
-    ci::Color8u background_color(50,205,50); // light blue
+    ci::Color8u background_color(200,200,220); // light green
     ci::gl::clear(background_color);
-    map_.DrawMap()
-
+    map_.DrawMap();
 }
 
 Application::Application(): map_(glm::vec2(kMargin, kMargin), kImageDimension,
-            kWindowSize - 2 * kMargin) {
+            kWindowSize - 2 * kMargin, .8) {
     ci::app::setWindowSize(kWindowSize, kWindowSize);
 }
 
