@@ -15,15 +15,19 @@ class Application : public ci::app::App {
   public:
     /**
      * The actual application that makes the UI of the project
-     * The naive-bayes grid lay out made sense for a map so the project is heavily inspired from
-     * that
+     * Uses a lot of the same functions from the naives bayes assigment because the user
+     * interacts similarly to the program
      */
     Application();
     void draw() override;
+    void mouseDown(ci::app::MouseEvent event) override;
   private:
     const int kWindowSize = 800;
-    const double kMargin = 100;
-    const size_t kImageDimension = 30;
+    // How much space is between the the edges of the window and between the spaces
+    const double kMargin = 150;
+    //How many spaces are in one side of the image
+    const size_t kImageDimension = 20;
+    //The visual map
     PathFinderMap map_;
 };
 

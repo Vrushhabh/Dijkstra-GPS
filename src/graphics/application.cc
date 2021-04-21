@@ -21,11 +21,11 @@ Application::Application(): map_(glm::vec2(kMargin, kMargin), kImageDimension,
     ci::app::setWindowSize(kWindowSize, kWindowSize);
 }
 
+void Application::mouseDown(ci::app::MouseEvent event) {
+    map_.BlockBrush(event.getPos());
+}
 
 };
-
-
-
 }  // namespace visualizer
 
   // namespace naivebayes
