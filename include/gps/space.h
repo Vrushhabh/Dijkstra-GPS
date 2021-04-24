@@ -30,7 +30,7 @@ class Space {
      */
     void AddConnection(size_t id, size_t weight);
 
-    size_t GetId(size_t id);
+    size_t GetId();
 
 
   private:

@@ -29,13 +29,16 @@ public:
    */
   void AddConnection(size_t weight, size_t space_one, size_t space_two);
 
-
-
 private:
-    /**
-     * The list of spaces in the map
-     */
-    std::vector<Space> spaces_;
+   /**
+    * The list of spaces in the map
+    */
+  std::vector<Space> spaces_;
+
+  /**
+   * vector of ids that leads to the ending node
+   */
+  std::vector<int> shortest_path_;
 };
 
 }
