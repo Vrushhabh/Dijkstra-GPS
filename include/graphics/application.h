@@ -26,7 +26,7 @@ class Application : public ci::app::App {
     const double kMargin = 150;
     //How many spaces are in one side of the image
     const size_t kImageDimension = 20;
-    //The visual map
+    //The visual gps
     PathFinderMap map_;
 };
 }

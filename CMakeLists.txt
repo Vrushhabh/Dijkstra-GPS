@@ -56,7 +56,9 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/graphics/path_finder_map.cc
-        src/graphics/application.cc)
+        src/graphics/application.cc
+        src/gps/map.cc
+        src/gps/space.cc)
 
 #list(APPEND TEST_FILES tests/reader_test.cc)
 #list(APPEND TEST_FILES tests/model_test.cc)

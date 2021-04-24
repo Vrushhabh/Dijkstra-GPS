@@ -6,6 +6,7 @@
 
 #include <graphics/application.h>
 
+
 using pathfinder::graphics::Application;
 
 void prepareSettings(Application::Settings* settings) {
