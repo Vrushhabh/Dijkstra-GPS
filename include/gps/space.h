@@ -24,7 +24,7 @@ class Space {
     std::vector<glm::vec2> GetConnections() const;
 
     /**
-     * Adds an edge to this space
+     * Adds an connection to this space
      * @param the id of the space
      * @param weight the weight between the 2 nodes
      */
@@ -41,7 +41,7 @@ class Space {
 
     /**
      * The list of connections and the correlating weights of the connections
-     * the first element in the vec2 is the connection and the second is the weight
+     * the first element in the vec2 is the id of the space that is connected and the second is the weight
      */
     std::vector<glm::vec2>  connections_ = std::vector<glm::vec2>();
 };
