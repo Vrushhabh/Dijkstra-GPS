@@ -22,7 +22,6 @@ class Space {
      * @return the list of adjacent edges and weights
      */
     std::vector<glm::vec2> GetConnections() const;
-
     /**
      * Adds an connection to this space
      * @param the id of the space
