@@ -30,8 +30,17 @@ class Space {
      */
     void AddConnection(size_t id, size_t weight);
 
-    size_t GetId();
+    /**
+     * Finds the shortest path using dijkstra's  which allows the usage of weights of connections
+     * A lot of the background knowledge was gotten from this Computerphile video
+     * https://www.youtube.com/watch?v=GazC3A4OQTE
+     * @param start_space_id  The start space where the id
+     * @param end_space_id The end space where the id
+     * @return The shortest distance between the start and end space
+     */
+    size_t FindShortestPath(size_t start_space_id, size_t end_space_id);
 
+    size_t GetId();
 
   private:
     /**

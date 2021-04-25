@@ -21,4 +21,9 @@ namespace pathfinder {
   size_t Space::GetId() {
       return id_;
   }
+
+
+  size_t Space::FindShortestPath(size_t start_space_id, size_t end_space_id) {
+      return 0;
+  }
 }

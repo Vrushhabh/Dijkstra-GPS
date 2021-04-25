@@ -7,6 +7,13 @@
 
 namespace pathfinder {
 namespace  graphics {
+enum class SpaceState {
+    Blocked,
+    Normal,
+    Weighted,
+    InShortestPath,
+};
+
 class PathFinderMap {
   public:
     /**
@@ -30,6 +37,10 @@ class PathFinderMap {
      * @param brush_screen_coords The coordinate of the mouse
      */
     void BlockBrush(const cinder::vec2& brush_screen_coords);
+
+    /**
+     *
+     */
   private:
     glm::vec2 top_left_corner_;
 
@@ -49,9 +60,9 @@ class PathFinderMap {
     /**
      * This vector represents what in the image. There will be different types of spaces including blocks and
      * spaces that would be the equivalent of moving more than just one space.
-     * I plan on making a space class that utilizes different enum types
+     * The enum type makes it so th spaces are standardized in 4 visual states
      */
-    std::vector<std::vector<int>> image_;
+    std::vector<std::vector<SpaceState>> image_;
 
 };
 }

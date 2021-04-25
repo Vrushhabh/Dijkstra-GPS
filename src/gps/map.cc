@@ -24,7 +24,6 @@ namespace pathfinder {
   void Map::AddConnection(size_t weight, size_t space_one, size_t space_two) {
       if (space_two == space_one) {
           throw std::invalid_argument("Space can not have connection to itself");
-
       }
       for (size_t i = 0; i < spaces_.size(); i++) {
           if (space_one == spaces_[i].GetId()){
