@@ -13,8 +13,8 @@ PathFinderMap::PathFinderMap(const glm::vec2 &top_left_corner, size_t num_spaces
     num_spaces_per_side_  = num_spaces_per_side;
     space_side_length_ = (sketchpad_size / num_spaces_per_side);
     brush_radius_ = brush_radius;
-    std::vector<int> pixels(num_spaces_per_side, 0);
-    std::vector<std::vector<int>> rows(num_spaces_per_side, pixels);
+    std::vector<SpaceState> pixels(num_spaces_per_side, SpaceState::Normal);
+    std::vector<std::vector<SpaceState>> rows(num_spaces_per_side, pixels);
     image_ = rows;
 }
 
@@ -22,7 +22,7 @@ void PathFinderMap::DrawMap() {
     for (size_t row = 0; row < num_spaces_per_side_; ++row) {
         for (size_t col = 0; col < num_spaces_per_side_; ++col) {
             //The number is temporary and will be replaced by a enum type
-            if (image_[row][col] == 1) {
+            if (image_[row][col] == SpaceState::Blocked) {
                 ci::gl::color(ci::Color::gray(.2f));
                 glm::vec2 pixel_top_left = top_left_corner_ + glm::vec2(col * space_side_length_,
                                                                         row * space_side_length_);
@@ -51,7 +51,7 @@ void PathFinderMap::BlockBrush(const cinder::vec2& brush_screen_coords) {
             if (glm::distance(brush_sketchpad_coords, pixel_center) <=
                 brush_radius_) {
                 //The number is temporary and will be replaced by a enum type
-                image_[row][col] = 1;
+                image_[row][col] = SpaceState::Blocked;
             }
         }
     }
