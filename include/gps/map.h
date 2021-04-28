@@ -15,17 +15,10 @@ public:
   void AddSpace(Space& space);
 
   /**
-   * Gets the space from the map from using the space id
-   * @param id The  value that can identify the space
-   * @return space
-   */
-  Space& GetSpace(size_t id);
-
-  /**
    * Adds a connection between two nodes
    * @param weight The weight of a connection (The more the weight the more
    * "time" it takes to reach the destination or the less desired the connection is)
-   * Pointers could also be used
+   * Pointers could also be used that point to other spaces
    * @param space_one A space id that is making a connection to space_two
    * @param space_two A space id that is making a connection to space_one
    */
@@ -60,6 +53,13 @@ private:
    * Originally set to just contain  a -1 to let the program know it has not been called
    */
   std::vector<int> shortest_path_ = std::vector<int> (1, -1);
+
+  /**
+   * Gets the space from the map from using the space id
+   * @param id The  value that can identify the space
+   * @return space
+   */
+  Space& GetSpace(size_t id);
 };
 
 }
