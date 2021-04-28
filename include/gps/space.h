@@ -1,4 +1,4 @@
-#include <graphics/path_finder_map.h>
+//#include <graphics/path_finder_map.h>
 #include <vector>
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -9,6 +9,7 @@ class Space {
   public:
     /**
      * The Space is a space on the board
+     * In computer science terms this is basically a node
      * @param  size_t marker This distinguishes a space on the gps from
      * another space
      */
@@ -23,9 +24,9 @@ class Space {
      */
     std::vector<glm::vec2> GetConnections() const;
     /**
-     * Adds an connection to this space
-     * @param the id of the space
-     * @param weight the weight between the 2 nodes
+     * Adds an connection(or edge) to this space
+     * @param the id of the space that is being connected to the object
+     * @param weight the weight of the connection between the 2 nodes
      */
     void AddConnection(size_t id, size_t weight);
 
@@ -39,7 +40,8 @@ class Space {
 
     /**
      * The list of connections and the correlating weights of the connections
-     * the first element in the vec2 is the id of the space that is connected and the second is the weight
+     * the first element in the vec2 is the weight of the connection and
+     * the second is the id of the other space that is connected
      */
     std::vector<glm::vec2>  connections_ = std::vector<glm::vec2>();
 };

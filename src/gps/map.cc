@@ -1,15 +1,9 @@
 //
 // Created by Vrushhabh Patel on 4/23/21.
 //
-
 #include "gps/map.h"
-#include <iostream>
 #include <queue>
 #include <map>
-#include <string>
-#include "cinder/app/RendererGl.h"
-#include "cinder/gl/gl.h"
-#include "../../../../include/glm/vec2.hpp"
 
 namespace pathfinder {
   Map::Map(){}
@@ -18,7 +12,7 @@ namespace pathfinder {
       spaces_.emplace_back(space);
   }
 
-  Space Map::GetSpace(size_t id) {
+  Space& Map::GetSpace(size_t id) {
       for (size_t i = 0; i < spaces_.size(); i++) {
           if (id == spaces_[i].GetId()){
               return spaces_[i];
@@ -29,17 +23,14 @@ namespace pathfinder {
 
   void Map::AddConnection(size_t weight, size_t space_one, size_t space_two) {
       if (space_two == space_one) {
+          //Spaces or nodes can in CS terms but this program is suppose to "simulate" a gps like
+          //application that finds shortest distance between two seperate applications
           throw std::invalid_argument("Space can not have connection to itself");
       }
-
-      for (size_t i = 0; i < spaces_.size(); i++) {
-          if (space_one == spaces_[i].GetId()){
-              spaces_[i].AddConnection(space_two, weight);
-          }
-          if (space_two == spaces_[i].GetId()){
-              spaces_[i].AddConnection(space_one, weight);
-          }
-      }
+      pathfinder::Space* space_1 = &GetSpace(space_one);
+      space_1->AddConnection(space_two, weight);
+      pathfinder::Space* space_2 = &GetSpace(space_two);
+      space_2->AddConnection(space_one, weight);
   }
 
     int Map::FindShortestPath(size_t start_space_id, size_t end_space_id) {
@@ -48,41 +39,48 @@ namespace pathfinder {
         // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-using-priority_queue-stl/
         std::map<size_t, size_t> dist_from_start_space;
         std::map<size_t, size_t> previous_map;
+        //Was planning to use vec2 for consistency instead of pair but greater function could not
+        //queue it due to the object type not being compatible
         std::priority_queue<std::pair<size_t, size_t>, std::vector<std::pair<size_t, size_t>>,
-                std::greater<std::pair<size_t, size_t>>> pq;
+                std::less<std::pair<size_t, size_t>>> pq;
         // set all distances to the max value because we do not know how far the
         //the value is from the start node
         for (size_t i = 0; i < spaces_.size(); i++) {
-            dist_from_start_space.emplace(spaces_[i].GetId(),INFINITY);
-
+            //We need to use INT_MAX because we need a very high value
+            //INFINITY could not be used because the value defaults to zero
+            //for some odd technical issue probably relating to types
+            dist_from_start_space.insert({spaces_[i].GetId(),INT_MAX});
         }
-        // check if the starting or ending node doesnt exist, if so, return -1
-        if (dist_from_start_space.count(end_space_id) == 0 ||
-            dist_from_start_space.count(start_space_id) == 0) {
-            return -1;
-        }
-
-        // set the distance to the starting node to 0 and push it in priority queue
+        // The starting node's distance is zero because we already know
+        // where the starting node is
         dist_from_start_space[start_space_id] = 0;
-        pq.push(std::make_pair(start_space_id, 0));
+        pq.push(std::make_pair(0, start_space_id));
 
         while (!pq.empty()) {
-            Space u = GetSpace(pq.top().first);
+            //first get the space from the priority queue before popping it out of pq
+            Space curr_space = GetSpace(pq.top().second);
             pq.pop();
-            for (glm::vec2 edge : u.GetConnections()) {
-                int new_dist = dist_from_start_space[u.GetId()] + edge.y;
-                // check if new distance is smaller than the old distance. If so, update
-                // the distance and update the previous node
-                if (dist_from_start_space[edge.x] > new_dist) {
-                    dist_from_start_space[edge.x] = new_dist;
-                    pq.push(std::make_pair(new_dist, edge.x));
-                    previous_map.emplace(edge.x, u.GetId());
+            for (size_t edge_num = 0; edge_num < curr_space.GetConnections().size(); edge_num++) {
+                std::cout<< curr_space.GetConnections()[edge_num];
+                //Updates the distance for current from the distance from starting destination
+                int new_dist = dist_from_start_space[curr_space.GetId()]
+                        + curr_space.GetConnections()[edge_num].y;
+                // check if new distance is smaller than previous distance
+                std::cout<< new_dist;
+                std::cout<< dist_from_start_space[curr_space.GetConnections()[edge_num].x];
+                if (dist_from_start_space[curr_space.GetConnections()[edge_num].x] > new_dist) {
+                    dist_from_start_space[curr_space.GetConnections()[edge_num].x] = new_dist;
+                    std::cout<< "in";
+                    //for each connection it adds to the priority queue and is queued depending
+                    pq.push(std::make_pair(new_dist, curr_space.GetConnections()[edge_num].x));
+                    previous_map.insert({static_cast<size_t>(curr_space.GetConnections()[edge_num].y),
+                                         static_cast<size_t>(curr_space.GetId())});
                 }
             }
         }
 
         // update shortest path
-        std::vector<size_t> shortest_path;
+        std::vector<int> shortest_path;
         int current_id = end_space_id;
         while (current_id != start_space_id) {
             shortest_path.push_back(current_id);
@@ -92,11 +90,15 @@ namespace pathfinder {
         shortest_path.push_back(start_space_id);
         shortest_path_ = shortest_path;
 
-        // Check if ending node was not reached, if so, return -1
-        if (dist_from_start_space[end_space_id] == INFINITY) {
+        // If the destination was not reached we would return -1 to let the program know it is impossible
+        if (dist_from_start_space[end_space_id] == INT_MAX) {
             return -1;
         }
         // return the distance to the node
         return dist_from_start_space[end_space_id];
-    };
+    }
+
+  std::vector<int> Map::GetShortestPath() {
+    return shortest_path_;
+  };
 }

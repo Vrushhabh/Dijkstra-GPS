@@ -3,6 +3,10 @@
 namespace pathfinder {
 class Map {
 public:
+  /**
+   * The default constructor that makes a Map no spaces in
+   * it or in lame terms a graph with no nodes
+   */
   Map();
   /**
    * Adds a space to the map
@@ -15,7 +19,7 @@ public:
    * @param id The  value that can identify the space
    * @return space
    */
-  Space GetSpace(size_t id);
+  Space& GetSpace(size_t id);
 
   /**
    * Adds a connection between two nodes
@@ -27,16 +31,22 @@ public:
    */
   void AddConnection(size_t weight, size_t space_one, size_t space_two);
 
-    /**
-     * Finds the shortest path using dijkstra's  which allows the usage of weights of connections
+   /**
+     * Finds the shortest path using dijkstra's algorithm  which allows the usage of weights of connections
      * A lot of the basic background knowledge was gotten from this Computerphile video
      * https://www.youtube.com/watch?v=GazC3A4OQTE
      * @param start_space_id  The start space where the id
      * @param end_space_id The end space where the id
-     * @return The shortest distance between the start and end space
+     * @return int The shortest distance between the start and end space
      *
      */
   int FindShortestPath(size_t start_space_id, size_t end_space_id);
+  /**
+   * Returns shortest path of the last FindShortestPath function call
+   * This is will be used for the graphics portion of the application
+   * @return
+   */
+  std::vector<int> GetShortestPath();
 
 private:
    /**
@@ -45,9 +55,11 @@ private:
   std::vector<Space> spaces_;
 
   /**
-   * vector of ids that leads to the ending node
+   * vector of ids that leads to the ending node that is changed everytime
+   * FindShortestPath function is called
+   * Originally set to just contain  a -1 to let the program know it has not been called
    */
-  std::vector<size_t> shortest_path_;
+  std::vector<int> shortest_path_ = std::vector<int> (1, -1);
 };
 
 }

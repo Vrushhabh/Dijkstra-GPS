@@ -11,7 +11,7 @@
 namespace pathfinder {
 namespace graphics {
 void Application::draw() {
-    ci::Color8u background_color(200,200,220); // light green
+    ci::Color8u background_color(200,200,220); // lavenderish color
     ci::gl::clear(background_color);
     map_.DrawMap();
 }

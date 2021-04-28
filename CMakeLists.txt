@@ -59,8 +59,7 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/graphics/application.cc
         src/gps/map.cc
         src/gps/space.cc)
-
-#list(APPEND TEST_FILES tests/reader_test.cc)
+list(APPEND TEST_FILES test/map_test.cc)
 #list(APPEND TEST_FILES tests/model_test.cc)
 #list(APPEND TEST_FILES tests/classifier_test.cc)
 
@@ -73,7 +72,11 @@ ci_make_app(
         SOURCES application/path_finder_app.cc ${SOURCE_FILES}
         INCLUDES        include
 )
+ci_make_app(
+        APP_NAME        Path_Finder_tests
+        CINDER_PATH     ${CINDER_PATH}
+        SOURCES         test/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
+        INCLUDES        include
+        LIBRARIES       catch2
+)
 
-if(MSVC)
-    set_property(TARGET naive-bayes-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
-endif()

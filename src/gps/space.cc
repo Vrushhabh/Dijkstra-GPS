@@ -1,7 +1,3 @@
-//
-// Created by Vrushhabh Patel on 4/23/21.
-//
-
 #include <gps/space.h>
 
 namespace pathfinder {
