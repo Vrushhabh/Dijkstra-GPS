@@ -88,18 +88,22 @@ void PathFinderMap::FindShortestPath(Map map) {
                 if (counter == map.GetShortestPath()[space]) {
                     image_[row][col] = SpaceState::InShortestPath;
                     break_check = true;
-                    std::cout<< "in";
+                    //std::cout<< "in";
                     break;
                 }
                 counter++;
             }
             if(break_check) {
-                std::cout<< "in2";
+                //std::cout<< "in2";
                 break_check = false;
                 break;
             }
+
         }
+
+
     }
+
 }
 }
 
@@ -139,23 +143,43 @@ Map graphics::PathFinderMap::MakeMap() {
         for (size_t col = 0; col < num_spaces_per_side_; col++) {
             //Makes normal spaces and there connections with surrounding spaces
             //depending on if the surrounding spaces are weighted spaces or not
-            if (image_[row][col] == SpaceState::Normal) {
+               if (image_[row][col] == SpaceState::Weighted) {
+                    map.AddSpace(Space(node_num));
+                    if (row > 0) {
+                        if (image_[row - 1][col] != SpaceState::Blocked) {
+                            map.AddConnection(weighted_connection, node_num, node_num - num_spaces_per_side_);
+                        }
+                    }
+                    if (row < num_spaces_per_side_ - 1) {
+                        if (image_[row + 1][col] != SpaceState::Blocked) {
+                            map.AddConnection(weighted_connection, node_num, node_num + num_spaces_per_side_);
+                        }
+                    }
+                    if (col > 0) {
+                        if (image_[row][col - 1] != SpaceState::Blocked) {
+                            map.AddConnection(weighted_connection, node_num, node_num - 1);
+                        }
+                    }
+                    if (col < num_spaces_per_side_- 1) {
+                        if (image_[row][col + 1] != SpaceState::Blocked) {
+                            map.AddConnection(weighted_connection, node_num, node_num + 1);
+                        }
+                    }
+                } else if (image_[row][col] == SpaceState::Normal) {
                 map.AddSpace(Space(node_num));
                 if (row > 0) {
                     if (image_[row - 1][col] == SpaceState::Normal) {
-                        map.AddConnection(normal_connection, node_num, node_num - num_spaces_per_side_
-                                          );
+                        map.AddConnection(normal_connection, node_num, node_num - num_spaces_per_side_);
                     } else if (image_[row - 1][col] == SpaceState::Weighted) {
-                        map.AddConnection(weighted_connection,node_num, node_num - num_spaces_per_side_
-                                          );
+                        std::cout<< "above";
+                        map.AddConnection(weighted_connection,node_num, node_num - num_spaces_per_side_);
                     }
                 }
                 if (row < num_spaces_per_side_ - 1) {
                     if (image_[row + 1][col] == SpaceState::Normal) {
-                        map.AddConnection(normal_connection,node_num, node_num + num_spaces_per_side_
-                                          );
+                        map.AddConnection(normal_connection,node_num, node_num + num_spaces_per_side_);
                     } else if (image_[row + 1][col] == SpaceState::Weighted) {
-                        map.AddConnection( weighted_connection,node_num, node_num + num_spaces_per_side_);
+                        map.AddConnection(weighted_connection,node_num, node_num + num_spaces_per_side_);
                     }
                 }
                 if (col > 0) {
@@ -170,31 +194,6 @@ Map graphics::PathFinderMap::MakeMap() {
                         map.AddConnection(normal_connection, node_num, node_num + 1);
                     } else if (image_[row][col + 1] == SpaceState::Weighted) {
                         map.AddConnection(weighted_connection,node_num, node_num + 1);
-                    }
-                }
-                else if (image_[row][col] == SpaceState::Weighted) {
-                    map.AddSpace(Space(node_num));
-                    if (row > 0) {
-                        if (image_[row - 1][col] != SpaceState::Blocked) {
-                            map.AddConnection(weighted_connection, node_num, node_num - num_spaces_per_side_
-                                              );
-                        }
-                    }
-                    if (row < num_spaces_per_side_ - 1) {
-                        if (image_[row + 1][col] != SpaceState::Blocked) {
-                            map.AddConnection(weighted_connection, node_num, node_num + num_spaces_per_side_
-                                              );
-                        }
-                    }
-                    if (col > 0) {
-                        if (image_[row][col - 1] != SpaceState::Blocked) {
-                            map.AddConnection( weighted_connection,node_num, node_num - 1);
-                        }
-                    }
-                    if (col < num_spaces_per_side_- 1) {
-                        if (image_[row][col + 1] != SpaceState::Blocked) {
-                            map.AddConnection( weighted_connection, node_num, node_num + 1);
-                        }
                     }
                 }
             }
