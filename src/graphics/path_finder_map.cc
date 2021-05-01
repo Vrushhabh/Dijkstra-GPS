@@ -134,6 +134,14 @@ void graphics::PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) 
 }
 
 Map graphics::PathFinderMap::MakeMap() {
+    for (size_t row = 0; row < num_spaces_per_side_; ++row) {
+        for (size_t col = 0; col < num_spaces_per_side_; ++col) {
+            cinder::vec2 pixel_center = {col + 0.5, row + 0.5};
+            if (image_[row][col] == SpaceState::InShortestPath) {
+                image_[row][col] = SpaceState::Normal;
+            }
+        }
+    }
     int normal_connection = 1;
     int weighted_connection = 3;
     int node_num = 0;
