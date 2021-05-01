@@ -1,6 +1,4 @@
-//
-// Created by Vrushhabh Patel on 4/23/21.
-//
+
 #include "gps/map.h"
 #include <queue>
 #include <map>
@@ -37,22 +35,22 @@ namespace pathfinder {
       //A reference I used to make sure I implemented the algorithm right was from this
       //geeksforgeeks article
       // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-using-priority_queue-stl/
+      //Space ID is the key and the value is the distance from start space
       std::map<size_t, size_t> dist_from_start_space;
       std::map<size_t, size_t> previous_map;
-      //Was planning to use vec2 for consistency instead of pair but greater function could not
-      //queue it due to the object type not being compatible
       std::priority_queue<std::pair<size_t, size_t>, std::vector<std::pair<size_t, size_t>>,
       std::less<std::pair<size_t, size_t>>> pq;
       // set all distances to the max value because we do not know how far the
       //the value is from the start node
       for (size_t i = 0; i < spaces_.size(); i++) {
-          //We need to use INT_MAX because we need a very high value
+          //We need to use INT_MAX because we need a very high value for not knowing
+          //the distance of the nodes from the starting node
           //INFINITY could not be used because the value defaults to zero
           //for some odd technical issue probably relating to types
           dist_from_start_space.insert({spaces_[i].GetId(), INT_MAX});
       }
       // The starting node's distance is zero because we already know
-      // where the starting node is
+      // where the starting node is and its distance from itself
       dist_from_start_space[start_space_id] = 0;
       pq.push(std::make_pair(0, start_space_id));
 
@@ -61,20 +59,20 @@ namespace pathfinder {
           Space curr_space = GetSpace(pq.top().second);
           pq.pop();
           for (size_t edge_num = 0; edge_num < curr_space.GetConnections().size(); edge_num++) {
-              std::cout<< curr_space.GetConnections()[edge_num];
+              //std::cout<< curr_space.GetConnections()[edge_num];
               //Updates the distance for current from the distance from starting destination
               int new_dist = dist_from_start_space[curr_space.GetId()]
                       + curr_space.GetConnections()[edge_num].y;
               // check if new distance is smaller than previous distance
-              std::cout<< new_dist;
-              std::cout<< dist_from_start_space[curr_space.GetConnections()[edge_num].x];
+             // std::cout<< new_dist;
+              //std::cout<< dist_from_start_space[curr_space.GetConnections()[edge_num].x];
               if (dist_from_start_space[curr_space.GetConnections()[edge_num].x] > new_dist) {
                   dist_from_start_space[curr_space.GetConnections()[edge_num].x] = new_dist;
-                  std::cout<< "in";
+                  //std::cout<< "in";
                   //for each connection it adds to the priority queue and is queued depending
                   pq.push(std::make_pair(new_dist, curr_space.GetConnections()[edge_num].x));
-                  previous_map.insert({static_cast<size_t>(curr_space.GetConnections()[edge_num].y),
-                                       static_cast<size_t>(curr_space.GetId())});
+                  previous_map.insert({static_cast<size_t>(curr_space.GetConnections()[edge_num].x)
+                                       ,static_cast<size_t>(curr_space.GetId())});
               }
           }
       }
@@ -83,9 +81,11 @@ namespace pathfinder {
          std::vector<int> shortest_path;
          int current_id = end_space_id;
          while (current_id != start_space_id) {
+             std::cout<<current_id;
              shortest_path.push_back(current_id);
              current_id = previous_map[current_id];
          }
+      std::cout<<"  ";
 
          shortest_path.push_back(start_space_id);
          shortest_path_ = shortest_path;

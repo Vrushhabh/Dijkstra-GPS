@@ -41,7 +41,7 @@ void PathFinderMap::DrawMap() {
     }
 }
 
-void PathFinderMap::BlockBrush(const cinder::vec2& brush_screen_coords) {
+void PathFinderMap::BlockAdder(const cinder::vec2& brush_screen_coords) {
     cinder::vec2 brush_sketchpad_coords =
             (brush_screen_coords - top_left_corner_) / (float)space_side_length_;
     //Goes through each space to see if it is where the user clicked to change the state of the space
@@ -55,6 +55,18 @@ void PathFinderMap::BlockBrush(const cinder::vec2& brush_screen_coords) {
             }
         }
     }
+}
+
+void PathFinderMap::FindShortestPath() {
+
+}
+
+void PathFinderMap::Clear() {
+
+}
+
+void PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
+
 }
 }
 }

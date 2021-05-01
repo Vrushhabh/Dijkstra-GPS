@@ -22,7 +22,7 @@ Application::Application(): map_(glm::vec2(kMargin, kMargin), kImageDimension,
 }
 
 void Application::mouseDown(ci::app::MouseEvent event) {
-    map_.BlockBrush(event.getPos());
+    map_.BlockAdder(event.getPos());
 }
 };
 }

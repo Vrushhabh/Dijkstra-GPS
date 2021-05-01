@@ -17,7 +17,7 @@ TEST_CASE("Map and Space test") {
     map.AddSpace(space_1);
     map.AddSpace(space_2);
     map.AddSpace(space_3);
-    //First element is the weight and the second and third are the spaces where the connections are
+    //First parameter is the weight and the second and third are the spaces where the connections are
     //being made
     //Straight line to destination
     map.AddConnection(3, 0, 1);
