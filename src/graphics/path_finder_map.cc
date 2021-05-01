@@ -57,6 +57,7 @@ void PathFinderMap::BlockAdder(const cinder::vec2& brush_screen_coords) {
     }
 }
 
+
 void PathFinderMap::FindShortestPath() {
 
 }
@@ -66,6 +67,27 @@ void PathFinderMap::Clear() {
 }
 
 void PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
+    cinder::vec2 brush_sketchpad_coords =
+            (brush_screen_coords - top_left_corner_) / static_cast<float>(space_side_length_);
+
+    for (size_t row = 0; row < num_spaces_per_side_; ++row) {
+        for (size_t col = 0; col < num_spaces_per_side_; ++col) {
+            cinder::vec2 pixel_center = {col + 0.5, row + 0.5};
+
+            if (glm::distance(brush_sketchpad_coords, pixel_center) <=
+                brush_radius_) {
+                image_[row][col] = SpaceState::Weighted;
+            }
+        }
+    }
+
+}
+
+Map PathFinderMap::MakeMap() {
+
+
+
+
 
 }
 }

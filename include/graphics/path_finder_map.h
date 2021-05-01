@@ -4,6 +4,7 @@
 
 #include "cinder/gl/gl.h"
 #include <glm/vec2.hpp>
+#include <gps/map.h>
 
 namespace pathfinder {
 namespace  graphics {
@@ -45,6 +46,12 @@ class PathFinderMap {
     void BlockAdder(const cinder::vec2& brush_screen_coords);
 
     /**
+     * Makes a map with correct connections and
+     */
+     Map MakeMap();
+
+
+    /**
      * Finds the shortest path on the map and highlights the path in light green
      */
     void FindShortestPath();
@@ -76,7 +83,6 @@ class PathFinderMap {
      * has control over
      */
     std::vector<std::vector<SpaceState>> image_;
-
 };
 }
 }
