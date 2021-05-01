@@ -6,7 +6,7 @@
 namespace pathfinder {
   Map::Map(){}
 
-  void Map::AddSpace(Space &space) {
+  void Map::AddSpace(Space space) {
       spaces_.emplace_back(space);
   }
 

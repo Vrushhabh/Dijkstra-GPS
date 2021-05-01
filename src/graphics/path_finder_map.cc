@@ -39,6 +39,22 @@ void PathFinderMap::DrawMap() {
             }
         }
     }
+
+    //Distinguishes start space by coloring it blue
+    glm::vec2 start_space_position = top_left_corner_ + glm::vec2(0 * space_side_length_, 0 * space_side_length_);
+    ci::gl::color(ci::Color("blue"));
+    ci::gl::drawSolidCircle(start_space_position, 8);
+    ci::gl::color(ci::Color("black"));
+    ci::gl::drawStrokedCircle(start_space_position, 12);
+
+
+    //Distinguishes start space by coloring it blue
+    glm::vec2 end_space_position = top_left_corner_ + glm::vec2((num_spaces_per_side_ - 1) * space_side_length_,
+                                                            (num_spaces_per_side_ - 1) * space_side_length_);
+    ci::gl::color(ci::Color("blue"));
+    ci::gl::drawSolidCircle(end_space_position, 8);
+    ci::gl::color(ci::Color("black"));
+    ci::gl::drawStrokedCircle(end_space_position, 12);
 }
 
 void PathFinderMap::BlockAdder(const cinder::vec2& brush_screen_coords) {
@@ -58,15 +74,36 @@ void PathFinderMap::BlockAdder(const cinder::vec2& brush_screen_coords) {
 }
 
 
-void PathFinderMap::FindShortestPath() {
+void PathFinderMap::FindShortestPath(Map& map) {
+    map.FindShortestPath(
+            0, num_spaces_per_side_ * num_spaces_per_side_ - 1);
+    //We start from the larger ints to smaller because the hashmap that originates from the
+    //map class has a map where the end destination eventually points to the start point
+    for (int space = map.GetShortestPath().size() - 1; space >= 0; --space) {
+        int counter = 0;
+        for (size_t row = 0; row < num_spaces_per_side_; row++) {
+            for (size_t col = 0; col < num_spaces_per_side_; col++) {
+                if (counter == space) {
+                    image_[row][col] = SpaceState::InShortestPath;
+                    return;
+                }
+                counter++;
+            }
+        }
+    }
+}
+
+
+
+
 
 }
 
-void PathFinderMap::Clear() {
+void graphics::PathFinderMap::Clear() {
 
 }
 
-void PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
+void graphics::PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
     cinder::vec2 brush_sketchpad_coords =
             (brush_screen_coords - top_left_corner_) / static_cast<float>(space_side_length_);
 
@@ -83,12 +120,78 @@ void PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
 
 }
 
-Map PathFinderMap::MakeMap() {
-
-
-
-
-
-}
+Map graphics::PathFinderMap::MakeMap() {
+    int normal_connection = 1;
+    int weighted_connection = 3;
+    int node_num = 0;
+    Map map;
+    for (size_t row = 0; row < num_spaces_per_side_; row++) {
+        for (size_t col = 0; col < num_spaces_per_side_; col++) {
+            //Makes normal spaces and there connections with surrounding spaces
+            //depending on if the surrounding spaces are weighted spaces or not
+            if (image_[row][col] == SpaceState::Normal) {
+                map.AddSpace(Space(node_num));
+                if (row > 0) {
+                    if (image_[row - 1][col] == SpaceState::Normal) {
+                        map.AddConnection(node_num, node_num - num_spaces_per_side_,
+                                          normal_connection);
+                    } else if (image_[row - 1][col] == SpaceState::Weighted) {
+                        map.AddConnection(node_num, node_num - num_spaces_per_side_,
+                                          weighted_connection);
+                    }
+                }
+                if (row < num_spaces_per_side_ - 1) {
+                    if (image_[row + 1][col] == SpaceState::Normal) {
+                        map.AddConnection(node_num, node_num + num_spaces_per_side_,
+                                          normal_connection);
+                    } else if (image_[row + 1][col] == SpaceState::Weighted) {
+                        map.AddConnection(node_num, node_num + num_spaces_per_side_,
+                                          weighted_connection);
+                    }
+                }
+                if (col > 0) {
+                    if (image_[row][col - 1] == SpaceState::Normal) {
+                        map.AddConnection(node_num, node_num - 1, normal_connection);
+                    } else if (image_[row][col - 1] == SpaceState::Weighted) {
+                        map.AddConnection(node_num, node_num - 1, weighted_connection);
+                    }
+                }
+                if (col < num_spaces_per_side_ - 1) {
+                    if (image_[row][col + 1] == SpaceState::Normal) {
+                        map.AddConnection(node_num, node_num + 1, normal_connection);
+                    } else if (image_[row][col + 1] == SpaceState::Weighted) {
+                        map.AddConnection(node_num, node_num + 1, weighted_connection);
+                    }
+                }
+                else if (image_[row][col] == SpaceState::Weighted) {
+                    map.AddSpace(Space(node_num));
+                    if (row > 0) {
+                        if (image_[row - 1][col] != SpaceState::Blocked) {
+                            map.AddConnection(node_num, node_num - num_spaces_per_side_,
+                                              weighted_connection);
+                        }
+                    }
+                    if (row < num_spaces_per_side_ - 1) {
+                        if (image_[row + 1][col] != SpaceState::Blocked) {
+                            map.AddConnection(node_num, node_num + num_spaces_per_side_,
+                                              weighted_connection);
+                        }
+                    }
+                    if (col > 0) {
+                        if (image_[row][col - 1] == SpaceState::Blocked) {
+                            map.AddConnection(node_num, node_num - 1, weighted_connection);
+                        }
+                    }
+                    if (col < num_spaces_per_side_- 1) {
+                        if (image_[row][col + 1] != SpaceState::Blocked) {
+                            map.AddConnection(node_num, node_num + 1, weighted_connection);
+                        }
+                    }
+                }
+            }
+            node_num++;
+        }
+    }
+    return map;
 }
 }

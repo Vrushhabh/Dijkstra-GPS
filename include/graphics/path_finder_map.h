@@ -12,6 +12,7 @@ enum class SpaceState {
     Blocked,
     Normal,
     Weighted,
+    InShortestPath,
 };
 
 class PathFinderMap {
@@ -35,12 +36,14 @@ class PathFinderMap {
     void DrawMap();
 
     /**
-     * Adds weight to the selected nodes and changes there color to purple
+     * Adds weight (think of traffic or bad roads that make a path undesirable and slower to traverse)
+     * to the selected spaces and changes there color to purple
      * @param brush_screen_coords The coordinate of the mouse
      */
     void WeightAdder(const glm::vec2 &brush_screen_coords);
 
     /**
+     * Adds spaces that are physical obstacles
      * @param brush_screen_coords The coordinate of the mouse
      */
     void BlockAdder(const cinder::vec2& brush_screen_coords);
@@ -54,7 +57,7 @@ class PathFinderMap {
     /**
      * Finds the shortest path on the map and highlights the path in light green
      */
-    void FindShortestPath();
+    void FindShortestPath(Map& map);
 
     /**
      *Clears the board and sets every space to be a normal white space

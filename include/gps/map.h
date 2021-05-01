@@ -12,7 +12,7 @@ public:
    * Adds a space to the map
    * @param space The space that is being added
    */
-  void AddSpace(Space& space);
+  void AddSpace(Space space);
 
   /**
    * Adds a connection between two nodes
