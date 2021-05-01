@@ -19,7 +19,10 @@ class Application : public ci::app::App {
     Application();
     void draw() override;
     void mouseDown(ci::app::MouseEvent event) override;
-  private:
+    void mouseDrag(ci::app::MouseEvent event) override;
+    void keyDown(ci::app::KeyEvent event) override;
+
+private:
     const int kWindowSize = 800;
     // How much space is between the the edges of the window and between the spaces
     const double kMargin = 150;

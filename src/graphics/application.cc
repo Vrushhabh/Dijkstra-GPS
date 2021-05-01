@@ -22,7 +22,29 @@ Application::Application(): map_(glm::vec2(kMargin, kMargin), kImageDimension,
 }
 
 void Application::mouseDown(ci::app::MouseEvent event) {
-    map_.BlockAdder(event.getPos());
+    if (event.isRightDown()) {
+        map_.BlockAdder(event.getPos());
+    } else if (event.isLeftDown()) {
+        map_.WeightAdder(event.getPos());
+    }
+}
+
+void Application::mouseDrag(ci::app::MouseEvent event) {
+    if (event.isRightDown()) {
+        map_.BlockAdder(event.getPos());
+    } else if (event.isLeftDown()) {
+        map_.WeightAdder(event.getPos());
+    }
+}
+
+void Application::keyDown(ci::app::KeyEvent event) {
+    AppBase::keyDown(event);
+    if (event.getCode() == ci::app::KeyEvent::KEY_c) {
+        map_.Clear();
+    } else if (event.getCode() == ci::app::KeyEvent::KEY_RETURN) {
+        Map map = map_.MakeMap();
+        map_.FindShortestPath(map);
+    }
 }
 };
 }

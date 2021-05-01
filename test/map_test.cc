@@ -28,10 +28,6 @@ TEST_CASE("Map and Space test") {
         REQUIRE_THROWS(map.FindShortestPath(5, 5),
         std::invalid_argument("Space does not exist in map currently"));
     }
-    SECTION("Check making a connection to the same space") {
-        REQUIRE_THROWS(map.AddConnection(1,1,1),
-                       std::invalid_argument("Space can not have connection to itself"));
-    }
 
     SECTION("When starting space is the destination") {
         REQUIRE(map.FindShortestPath(0, 0) == 0);

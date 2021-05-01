@@ -57,7 +57,8 @@ class PathFinderMap {
     /**
      * Finds the shortest path on the map and highlights the path in light green
      */
-    void FindShortestPath(Map& map);
+    void FindShortestPath(Map map);
+
 
     /**
      *Clears the board and sets every space to be a normal white space

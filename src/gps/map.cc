@@ -20,16 +20,17 @@ namespace pathfinder {
   }
 
   void Map::AddConnection(size_t weight, size_t space_one, size_t space_two) {
-      if (space_two == space_one) {
-          //Spaces or nodes can in CS terms but this program is suppose to "simulate" a gps like
-          //application that finds shortest distance between two seperate applications
-          throw std::invalid_argument("Space can not have connection to itself");
+
+      for (Space &space : spaces_) {
+          if (space.GetId() == space_one) {
+              space.AddConnection(space_two, weight);
+          }
+          if (space.GetId() == space_two) {
+              space.AddConnection(space_one, weight);
+          }
       }
-      pathfinder::Space* space_1 = &GetSpace(space_one);
-      space_1->AddConnection(space_two, weight);
-      pathfinder::Space* space_2 = &GetSpace(space_two);
-      space_2->AddConnection(space_one, weight);
   }
+
 
   int Map::FindShortestPath(size_t start_space_id, size_t end_space_id) {
       //A reference I used to make sure I implemented the algorithm right was from this
@@ -39,7 +40,7 @@ namespace pathfinder {
       std::map<size_t, size_t> dist_from_start_space;
       std::map<size_t, size_t> previous_map;
       std::priority_queue<std::pair<size_t, size_t>, std::vector<std::pair<size_t, size_t>>,
-      std::less<std::pair<size_t, size_t>>> pq;
+      std::greater<std::pair<size_t, size_t>>> pq;
       // set all distances to the max value because we do not know how far the
       //the value is from the start node
       for (size_t i = 0; i < spaces_.size(); i++) {
@@ -81,19 +82,21 @@ namespace pathfinder {
          std::vector<int> shortest_path;
          int current_id = end_space_id;
          while (current_id != start_space_id) {
-             std::cout<<current_id;
+             std::cout<<current_id << "-";
              shortest_path.push_back(current_id);
              current_id = previous_map[current_id];
          }
       std::cout<<"  ";
 
          shortest_path.push_back(start_space_id);
-         shortest_path_ = shortest_path;
+
 
          // If the destination was not reached we would return -1 to let the program know it is impossible
          if (dist_from_start_space[end_space_id] == INT_MAX) {
+             std::cout<<"HAHAHAH";
              return -1;
          }
+         shortest_path_ = shortest_path;
          // return the distance to the node
          return dist_from_start_space[end_space_id];
     }
