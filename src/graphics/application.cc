@@ -13,6 +13,11 @@ namespace graphics {
 void Application::draw() {
     ci::Color8u background_color(200,200,220); // lavenderish color
     ci::gl::clear(background_color);
+    ci::gl::drawStringCentered(
+            "Press c to clear the map. Press f to find the path. Right-click to add blocks. "
+            "Left-click to add weighted spaces",
+            glm::vec2(kWindowSize / 2, kMargin / 2), ci::Color("black"));
+
     map_.DrawMap();
 }
 
@@ -41,7 +46,7 @@ void Application::keyDown(ci::app::KeyEvent event) {
     AppBase::keyDown(event);
     if (event.getCode() == ci::app::KeyEvent::KEY_c) {
         map_.Clear();
-    } else if (event.getCode() == ci::app::KeyEvent::KEY_RETURN) {
+    } else if (event.getCode() == ci::app::KeyEvent::KEY_f) {
         Map map = map_.MakeMap();
         map_.FindShortestPath(map);
     }
