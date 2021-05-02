@@ -1,3 +1,7 @@
-Fill this in before the final project deadline. Someone who has _no familiarity_ with your project should be able to read this and understand:
-* what your project does
-* how to set it up and run it
+
+
+# Project Synopsis
+This program is used to visualize a shortest path between two points with map that consists of blocks and weighted connections. The user will be able to make a map that consists of weighted nodes and blocked nodes and it finds the shortest path according to what the user inputs on the map
+
+# Set Up
+Simply use vsc on a C++ IDE and run path_finder_app. The controls on how to intereact with the visual map will be on the top part of the window of the program.
