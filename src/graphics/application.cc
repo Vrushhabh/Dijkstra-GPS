@@ -28,17 +28,17 @@ Application::Application(): map_(glm::vec2(kMargin, kMargin), kImageDimension,
 
 void Application::mouseDown(ci::app::MouseEvent event) {
     if (event.isRightDown()) {
-        map_.BlockAdder(event.getPos());
+        map_.AddBlock(event.getPos());
     } else if (event.isLeftDown()) {
-        map_.WeightAdder(event.getPos());
+        map_.AddWeight(event.getPos());
     }
 }
 
 void Application::mouseDrag(ci::app::MouseEvent event) {
     if (event.isRightDown()) {
-        map_.BlockAdder(event.getPos());
+        map_.AddBlock(event.getPos());
     } else if (event.isLeftDown()) {
-        map_.WeightAdder(event.getPos());
+        map_.AddWeight(event.getPos());
     }
 }
 
