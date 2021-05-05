@@ -50,22 +50,12 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
-#list(APPEND CORE_SOURCE_FILES src/core/probabilities.cc)
-#list(APPEND CORE_SOURCE_FILES src/core/reader.cc)
-#list(APPEND CORE_SOURCE_FILES src/core/classifier.cc)
-
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
         src/graphics/path_finder_map.cc
         src/graphics/application.cc
         src/gps/map.cc
         src/gps/space.cc)
 list(APPEND TEST_FILES test/map_test.cc)
-#list(APPEND TEST_FILES tests/model_test.cc)
-#list(APPEND TEST_FILES tests/classifier_test.cc)
-
-add_executable(train-model application/path_finder_app.cc ${CORE_SOURCE_FILES})
-target_include_directories(train-model PRIVATE include)
-
 ci_make_app(
         APP_NAME        path_finder_app
         CINDER_PATH     ${CINDER_PATH}
