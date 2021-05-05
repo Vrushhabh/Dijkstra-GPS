@@ -52,7 +52,4 @@ TEST_CASE("Map and Space test") {
         map.AddConnection(3,4,3);
         REQUIRE(map.FindShortestPath(0, 3) == 6);
     }
-
-
-
 }
