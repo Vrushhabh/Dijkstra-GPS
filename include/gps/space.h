@@ -1,4 +1,3 @@
-//#include <graphics/path_finder_map.h>
 #include <vector>
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -45,5 +44,4 @@ class Space {
      */
     std::vector<glm::vec2>  connections_ = std::vector<glm::vec2>();
 };
-
 }

@@ -1,4 +1,3 @@
-
 #include "gps/map.h"
 #include <queue>
 #include <map>

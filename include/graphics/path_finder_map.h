@@ -1,7 +1,3 @@
-//
-// Created by Vrushhabh Patel on 4/20/21.
-//
-
 #include "cinder/gl/gl.h"
 #include <glm/vec2.hpp>
 #include <gps/map.h>

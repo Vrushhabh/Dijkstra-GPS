@@ -1,6 +1,3 @@
-//
-// Created by Vrushhabh Patel on 4/20/21.
-//
 #pragma once
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"

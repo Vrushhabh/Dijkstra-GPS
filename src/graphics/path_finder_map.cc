@@ -1,6 +1,3 @@
-
-
-
 #include <graphics/path_finder_map.h>
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"

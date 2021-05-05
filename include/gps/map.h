@@ -1,5 +1,6 @@
 #include "space.h"
 #include <queue>
+
 namespace pathfinder {
 class Map {
 public:
