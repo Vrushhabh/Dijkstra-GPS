@@ -36,13 +36,13 @@ class PathFinderMap {
      * to the selected spaces and changes there color to purple
      * @param brush_screen_coords The coordinate of the mouse
      */
-    void WeightAdder(const glm::vec2 &brush_screen_coords);
+    void AddWeight(const glm::vec2 &brush_screen_coords);
 
     /**
      * Adds spaces that are physical obstacles
      * @param brush_screen_coords The coordinate of the mouse
      */
-    void BlockAdder(const cinder::vec2& brush_screen_coords);
+    void AddBlock(const cinder::vec2& brush_screen_coords);
 
     /**
      * Makes a map with correct connections and

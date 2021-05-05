@@ -55,7 +55,7 @@ void PathFinderMap::DrawMap() {
     ci::gl::drawStrokedCircle(end_space_position, 12);
 }
 
-void PathFinderMap::BlockAdder(const cinder::vec2& brush_screen_coords) {
+void PathFinderMap::AddBlock(const cinder::vec2& brush_screen_coords) {
     cinder::vec2 brush_sketchpad_coords =
             (brush_screen_coords - top_left_corner_) / (float)space_side_length_;
     //Goes through each space to see if it is where the user clicked to change the state of the space
@@ -113,7 +113,7 @@ void graphics::PathFinderMap::Clear() {
     }
 }
 
-void graphics::PathFinderMap::WeightAdder(const glm::vec2 &brush_screen_coords) {
+void graphics::PathFinderMap::AddWeight(const glm::vec2 &brush_screen_coords) {
     cinder::vec2 brush_sketchpad_coords =
             (brush_screen_coords - top_left_corner_) / static_cast<float>(space_side_length_);
 
